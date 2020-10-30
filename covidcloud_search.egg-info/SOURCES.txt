@@ -1,0 +1,9 @@
+README.md
+setup.py
+covidcloud_search/__init__.py
+covidcloud_search/search.py
+covidcloud_search.egg-info/PKG-INFO
+covidcloud_search.egg-info/SOURCES.txt
+covidcloud_search.egg-info/dependency_links.txt
+covidcloud_search.egg-info/requires.txt
+covidcloud_search.egg-info/top_level.txt
