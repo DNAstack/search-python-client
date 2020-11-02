@@ -2,6 +2,7 @@ import unittest
 
 from covidcloud_search.search import ga4gh_get_drs, ga4gh_search_db
 
+
 class TestSearchFunctions(unittest.TestCase):
 
     def test_ga4gh_get_drs(self):
