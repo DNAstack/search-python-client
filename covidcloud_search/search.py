@@ -55,7 +55,7 @@ def ga4gh_search_db(
     """
 
     search_url = 'https://ga4gh-search-adapter-presto-covid19-public.prod.dnastack.com/search'
-    response = requests.post(url, json={'query': query})
+    response = requests.post(search_url, json={'query': query})
     
     if response.status_code == 200:
         response_url = response.json()['pagination']
