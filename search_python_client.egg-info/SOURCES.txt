@@ -1,0 +1,9 @@
+README.md
+setup.py
+search_python_client/__init__.py
+search_python_client/search.py
+search_python_client.egg-info/PKG-INFO
+search_python_client.egg-info/SOURCES.txt
+search_python_client.egg-info/dependency_links.txt
+search_python_client.egg-info/requires.txt
+search_python_client.egg-info/top_level.txt
