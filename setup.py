@@ -2,12 +2,12 @@ from setuptools import find_packages, setup
 
 
 setup(
-    name='covidcloud_search',
-    packages=find_packages(include=['covidcloud_search']),
-    version='0.1.1',
-    description='DNAstack CovidCloud Search Library',
+    name='search_python_client',
+    packages=find_packages(include=['search_python_client']),
+    version='0.1.2',
+    description='DNAstack Search Library',
     author='Ayman A',
     license='MIT',
-    install_requires=['requests==2.22.0'],
+    install_requires=['requests>=2.0.0', 'pandas>=1.0.0'],
     test_suite='tests',
 )
