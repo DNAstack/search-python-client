@@ -6,5 +6,5 @@ Written in python 3.7.4
 
 # Install
 ```
-pip install git+https://github.com/DNAstack/search-python-client
+pip install git+https://github.com/DNAstack/search-python-client --no-cache-dir
 ```
