@@ -5,11 +5,66 @@ import requests
 from typing import List
 
 
+class DrsClient:
+    """
+    DRS client for DNAstack's DRS API's.
+
+    :param url: Base url to search on
+
+    :Example:
+        from search_python_client.search import DrsClient
+        url = 'https://drs.covidcloud.ca/ga4gh/drs/v1/'
+        drs_client = DrsClient(url=url)
+
+    """
+
+    def __init__(self, url: str):
+        self.url = url
+
+    def __str__(self):
+        return f'DrsClient(url={self.url})'
+
+    def __repr__(self):
+        return f'DrsClient(url={self.url})'
+
+    def _get(self, url: str) -> dict:
+        """
+        Executes get request and returns dict formatted json response
+
+        :param url: Url to search on
+        :returns: dict formatted json response
+        :raises HTTPError: If response != 200
+
+        """
+        response = requests.get(url)
+        response.raise_for_status()
+        return response.json()
+
+    def object_info(self, object_id: str) -> pd.DataFrame:
+        """
+        List all info associated with object.
+
+        :param object_info: Object id of choice
+        :returns: Dataframe formatted responses
+        :raises HTTPError: If response != 200
+
+        """
+        return pd.DataFrame(
+            self._get(os.path.join(self.url, 'objects', object_id))
+        )
+
+
 class SearchClient:
     """
     Search client for DNAstack's search API's.
 
     :param url: Base url to search on
+
+    :Example:
+        from search_python_client.search import SearchClient
+        url = 'https://ga4gh-search-adapter-presto-covid19-public.prod.dnastack.com/'
+        search_client = SearchClient(url=url)
+
     """
 
     def __init__(self, url: str):
@@ -21,7 +76,7 @@ class SearchClient:
     def __repr__(self):
         return f'SearchClient(url={self.url})'
 
-    def _get(self, url) -> dict:
+    def _get(self, url: str) -> dict:
         """
         Executes get request and returns dict formatted json response
 
@@ -157,8 +212,7 @@ class SearchClient:
         :returns: Dataframe formatted responses
         :raises HTTPError: If response != 200
 
-        Example:
-            query = 'SELECT * FROM coronavirus_dnastack_curated.covid_cloud_production.sequences_view LIMIT 1000'
+        :Example: query = 'SELECT * FROM coronavirus_dnastack_curated.covid_cloud_production.sequences_view LIMIT 1000'
 
         """
         return pd.DataFrame(
