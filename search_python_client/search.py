@@ -12,8 +12,8 @@ class DrsClient:
     :param url: Base url to search on
 
     :Example:
-        from search_python_client.search import DrsClient
-        url = 'https://drs.covidcloud.ca/ga4gh/drs/v1/'
+        from search_python_client.search import DrsClient\n
+        url = 'https://drs.covidcloud.ca/ga4gh/drs/v1/'\n
         drs_client = DrsClient(url=url)
 
     """
@@ -61,8 +61,8 @@ class SearchClient:
     :param url: Base url to search on
 
     :Example:
-        from search_python_client.search import SearchClient
-        url = 'https://ga4gh-search-adapter-presto-covid19-public.prod.dnastack.com/'
+        from search_python_client.search import SearchClient\n
+        url = 'https://ga4gh-search-adapter-presto-covid19-public.prod.dnastack.com/'\n
         search_client = SearchClient(url=url)
 
     """
@@ -205,7 +205,7 @@ class SearchClient:
 
     def search_table(self, query: str, pages: int = 100) -> pd.DataFrame:
         """
-        Executes an SQL query on table of choice and returns associated data
+        Executes an SQL query on table of choice and returns associated data.
 
         :param table_name: Table name of choice
         :param pages: Number of pages to return. Defaults to 100
