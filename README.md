@@ -8,3 +8,11 @@ Written in python 3.7.4
 ```
 pip install git+https://github.com/DNAstack/search-python-client --no-cache-dir
 ```
+
+# Tests
+There are many ways to te4st, but this is the easiest way
+```
+git clone https://github.com/DNAstack/search-python-client
+cd search-python-client
+python setup.py test
+```
