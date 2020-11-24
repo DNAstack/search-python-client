@@ -100,12 +100,15 @@ class SearchClient:
         """
         basename = os.path.basename(url)
         json_response = self._get(url)
+        if json_response[basename]:
+            for row in json_response[basename]:
+                yield row
         while True:
             try:
                 json_response = self._get(
                     json_response['pagination']['next_page_url']
                 )
-            except KeyError:
+            except (KeyError, TypeError):
                 break
             if json_response[basename]:
                 for row in json_response[basename]:
@@ -136,6 +139,9 @@ class SearchClient:
 
         """
         json_response = self._post(url, json=json)
+        if json_response['data']:
+            for row in json_response['data']:
+                yield row
         while True:
             try:
                 json_response = self._get(
