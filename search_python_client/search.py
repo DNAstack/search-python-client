@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import requests
 
-from typing import Iterator
+from typing import Iterator, Optional
 
 
 class DrsClient:
@@ -10,6 +10,8 @@ class DrsClient:
     DRS client for DNAstack's DRS API's.
 
     :param base_url: Base url to search on
+    :param username: Username for drs server. Defaults to None
+    :param password: Password for drs server. Defaults to None
 
     :Example:
         from search_python_client.search import DrsClient\n
@@ -18,8 +20,10 @@ class DrsClient:
 
     """
 
-    def __init__(self, base_url: str):
+    def __init__(self, base_url: str, username: Optional[str] = None, password: Optional[str] = None):
         self.base_url = base_url
+        self.username = username
+        self.password = password
 
     def __str__(self):
         return f'DrsClient(base_url={self.base_url})'
@@ -36,7 +40,7 @@ class DrsClient:
         :raises HTTPError: If response != 200
 
         """
-        response = requests.get(url)
+        response = requests.get(url, auth=(self.username, self.password))
         response.raise_for_status()
         return response.json()
 
@@ -49,9 +53,10 @@ class DrsClient:
         :raises HTTPError: If response != 200
 
         """
-        return pd.DataFrame(
-            self._get(os.path.join(self.base_url, 'objects', object_id))
-        )
+        return pd.DataFrame.from_dict(
+            self._get(os.path.join(self.base_url, 'objects', object_id).replace('\\', '/')),
+            orient='index'
+        ).T
 
 
 class SearchClient:
@@ -162,7 +167,7 @@ class SearchClient:
 
         """
         return self._get_paginated(
-            os.path.join(self.base_url, 'tables')
+            os.path.join(self.base_url, 'tables').replace('\\', '/')
         )
 
     def get_table_info(self, table_name: str) -> pd.DataFrame:
@@ -175,7 +180,7 @@ class SearchClient:
 
         """
         return pd.DataFrame(
-            self._get(os.path.join(self.base_url, 'table', table_name, 'info'))
+            self._get(os.path.join(self.base_url, 'table', table_name, 'info').replace('\\', '/'))
         )
 
     def get_table_data(self, table_name: str) -> Iterator:
@@ -188,7 +193,7 @@ class SearchClient:
 
         """
         return self._get_paginated(
-            os.path.join(self.base_url, 'table', table_name, 'data')
+            os.path.join(self.base_url, 'table', table_name, 'data').replace('\\', '/')
         )
 
     def search_table(self, query: str) -> Iterator:
@@ -203,5 +208,5 @@ class SearchClient:
 
         """
         return self._post_paginated(
-                os.path.join(self.base_url, 'search'), query
+                os.path.join(self.base_url, 'search').replace('\\', '/'), query
         )

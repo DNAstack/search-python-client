@@ -11,7 +11,7 @@ class TestDrsClient(unittest.TestCase):
     def test_get_object_info(self):
         object_id = '0000bee7-6e47-4e0c-b3e4-9e574eac508b'
         object_info = self.drs_client.get_object_info(object_id)
-        self.assertEqual(object_info.loc['id', 'object'], object_id)
+        self.assertEqual(object_info.id.values[0], object_id)
 
 
 class TestSearchClient(unittest.TestCase):

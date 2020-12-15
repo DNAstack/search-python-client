@@ -168,12 +168,16 @@
 <span id="search-python-client-search-module"></span><h2>search_python_client.search module<a class="headerlink" href="#module-search_python_client.search" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="search_python_client.search.DrsClient">
-<em class="property">class </em><code class="sig-prename descclassname">search_python_client.search.</code><code class="sig-name descname">DrsClient</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">base_url</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#search_python_client.search.DrsClient" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">search_python_client.search.</code><code class="sig-name descname">DrsClient</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">base_url</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">username</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">password</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#search_python_client.search.DrsClient" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>DRS client for DNAstack’s DRS API’s.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>base_url</strong> – Base url to search on</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>base_url</strong> – Base url to search on</p></li>
+<li><p><strong>username</strong> – Username for drs server. Defaults to None</p></li>
+<li><p><strong>password</strong> – Password for drs server. Defaults to None</p></li>
+</ul>
 </dd>
 <dt class="field-even">Example</dt>
 <dd class="field-even"><p>from search_python_client.search import DrsClient</p>
