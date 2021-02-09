@@ -20,7 +20,9 @@ python setup.py test
 # Config File
 To protect your DRS Server variables I have allowed for the user to submit their server variables through a config.ini file.
 
-Your file should be structured in one of two ways depending on if you want auth or wallet support. Please note that only one of these ways must be used. You cannot use both! Passing the `config_file` parameters with another parameter will cause `config_file` to overwrite the values of the other variables.
+Your file should be structured in one of two ways depending on if you want auth or wallet support. Please note that only one of these ways must be used. You cannot use both! 
+
+Also you cannot pass the `config_file` parameter with another parameter (`auth` or `wallet`). This will cause `config_file` to overwrite the values of the other variables.
 
 For auth:
 ```
