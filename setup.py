@@ -4,7 +4,7 @@ from setuptools import find_packages, setup
 setup(
     name='search_python_client',
     packages=find_packages(include=['search_python_client']),
-    version='0.1.6',
+    version='0.1.7',
     description='DNAstack Search Library',
     author='Ayman A',
     license='MIT',
