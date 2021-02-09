@@ -9,9 +9,12 @@ from typing import Iterator, Optional, Tuple, Union
 class DrsClient:
     """
     DRS client for DNAstack's DRS API's.
+
     :param base_url: Base url to search on
     :param auth: (username, pass) for auth access. Defaults to None
-    :param wallet: Token for wallet access . Defaults to None
+    :param wallet: Token for wallet access. Defaults to None
+    :param config_file: Config.ini file that contains drs server variables (see README.md)
+
     :Example:
         from search_python_client.search import DrsClient\n
         base_url = 'https://drs.covidcloud.ca/ga4gh/drs/v1/'\n
