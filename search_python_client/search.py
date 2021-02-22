@@ -107,6 +107,7 @@ class SearchClient:
     Search client for DNAstack's search API's.
 
     :param base_url: Base url to search on
+    :param wallet: Token for wallet access. Defaults to None
 
     :Example:
         from search_python_client.search import SearchClient\n
@@ -115,8 +116,9 @@ class SearchClient:
 
     """
 
-    def __init__(self, base_url: str):
+    def __init__(self, base_url: str, wallet: Optional[str] = None):
         self.base_url = base_url
+        self.wallet = wallet
 
     def __str__(self):
         return f'SearchClient(base_url={self.base_url})'
@@ -133,7 +135,13 @@ class SearchClient:
         :raises HTTPError: If response != 200
 
         """
-        response = requests.get(url)
+
+        if self.wallet:
+            headers = {'Authorization': f'Bearer {self.wallet}'}
+            response = requests.get(url, headers=headers)
+        else:
+            response = requests.get(url)
+
         response.raise_for_status()
         return response.json()
 
@@ -170,7 +178,12 @@ class SearchClient:
         :raises HTTPError: If response != 200
 
         """
-        response = requests.post(url, json={'query': json})
+        if self.wallet:
+            headers = {'Authorization': f'Bearer {self.wallet}'}
+            response = requests.post(url, json={'query': json}, headers=headers)
+        else:
+            response = requests.post(url, json={'query': json})
+
         response.raise_for_status()
         return response.json()
 
