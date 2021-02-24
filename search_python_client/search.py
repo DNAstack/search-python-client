@@ -101,6 +101,19 @@ class DrsClient:
             orient='index'
         ).T
 
+    def get_object_access(self, object_id: str, access_id: str) -> pd.DataFrame:
+        """
+        Get an object's signed access URL.
+        :param object_id: Object Id of choice
+        :param access_id: Object's Access Id for signed URL
+        :returns: Dataframe formatted responses
+        :raises HTTPError: If response != 200
+        """
+        return pd.DataFrame.from_dict(
+            self._get(os.path.join(self.base_url, 'objects', object_id, 'access', access_id).replace('\\', '/')),
+            orient='index'
+        ).T
+
 
 class SearchClient:
     """
