@@ -171,7 +171,7 @@ class SearchClient:
         :raises HTTPError: If response != 200
 
         """
-        for item in self._iterate_response(self._get(url)):
+        for item in self._iterate_response(self._get(url), list_property_name):
             yield item
 
     def _iterate_response(self, initial_response: requests.Response, list_property_name: str):
