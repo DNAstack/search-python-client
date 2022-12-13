@@ -8,6 +8,9 @@ setup(
     description='DNAstack Search Library',
     author='Ayman A',
     license='MIT',
-    install_requires=['requests>=2.0.0', 'pandas>=1.0.0'],
+    install_requires=[
+        'requests>=2.0.0',
+        # 'pandas>=1.0.0',
+    ],
     test_suite='tests',
 )
