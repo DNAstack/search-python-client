@@ -171,18 +171,8 @@ class SearchClient:
         :raises HTTPError: If response != 200
 
         """
-        self._iterate_response(self._get(url))
-        # if json_response.get(list_property_name, None):
-        #     for row in json_response[list_property_name]:
-        #         yield row
-        # while True:
-        #     try:
-        #         json_response = self._get(json_response['pagination']['next_page_url'])
-        #         if json_response.get(list_property_name, None):
-        #             for row in json_response[list_property_name]:
-        #                 yield row
-        #     except (KeyError, TypeError):
-        #         break
+        for item in self._iterate_response(self._get(url)):
+            yield item
 
     def _iterate_response(self, initial_response: requests.Response, list_property_name: str):
         json_response = initial_response
@@ -222,18 +212,8 @@ class SearchClient:
         :raises HTTPError: If response != 200
 
         """
-        self._iterate_response(self._post(url, json=json))
-        # if json_response.get('data', None):
-        #     for row in json_response['data']:
-        #         yield row
-        # while True:
-        #     try:
-        #         json_response = self._get(json_response['pagination']['next_page_url'])
-        #         if json_response.get('data', None):
-        #             for row in json_response['data']:
-        #                 yield row
-        #     except KeyError:
-        #         break
+        for item in self._iterate_response(self._post(url, json=json), 'data'):
+            yield item
 
     def get_table_list(self) -> Iterator:
         """
