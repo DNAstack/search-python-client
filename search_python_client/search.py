@@ -1,5 +1,6 @@
 import configparser
 import os
+from urllib.parse import urljoin
 import pandas as pd
 import requests
 
@@ -133,6 +134,9 @@ class SearchClient:
         self.base_url = base_url
         self.wallet = wallet
 
+        if not self.base_url.endswith('/'):
+            self.base_url += '/'
+
     def __str__(self):
         return f'SearchClient(base_url={self.base_url})'
 
@@ -158,7 +162,7 @@ class SearchClient:
         response.raise_for_status()
         return response.json()
 
-    def _get_paginated(self, url: str) -> Iterator:
+    def _get_paginated(self, url: str, list_property_name: str) -> Iterator:
         """
         Executes get request for paginated responses
 
@@ -167,19 +171,27 @@ class SearchClient:
         :raises HTTPError: If response != 200
 
         """
-        basename = os.path.basename(url)
-        json_response = self._get(url)
-        if json_response.get(basename, None):
-            for row in json_response[basename]:
+        self._iterate_response(self._get(url))
+        # if json_response.get(list_property_name, None):
+        #     for row in json_response[list_property_name]:
+        #         yield row
+        # while True:
+        #     try:
+        #         json_response = self._get(json_response['pagination']['next_page_url'])
+        #         if json_response.get(list_property_name, None):
+        #             for row in json_response[list_property_name]:
+        #                 yield row
+        #     except (KeyError, TypeError):
+        #         break
+
+    def _iterate_response(self, initial_response: requests.Response, list_property_name: str):
+        json_response = initial_response
+        for row in json_response.get(list_property_name, list()):
+            yield row
+        while json_response.get('pagination') and json_response.get('pagination').get('next_page_url'):
+            json_response = self._get(json_response.get('pagination').get('next_page_url'))
+            for row in json_response.get(list_property_name, list()):
                 yield row
-        while True:
-            try:
-                json_response = self._get(json_response['pagination']['next_page_url'])
-                if json_response.get(basename, None):
-                    for row in json_response[basename]:
-                        yield row
-            except (KeyError, TypeError):
-                break
 
     def _post(self, url: str, json: dict) -> dict:
         """
@@ -210,18 +222,18 @@ class SearchClient:
         :raises HTTPError: If response != 200
 
         """
-        json_response = self._post(url, json=json)
-        if json_response.get('data', None):
-            for row in json_response['data']:
-                yield row
-        while True:
-            try:
-                json_response = self._get(json_response['pagination']['next_page_url'])
-                if json_response.get('data', None):
-                    for row in json_response['data']:
-                        yield row
-            except KeyError:
-                break
+        self._iterate_response(self._post(url, json=json))
+        # if json_response.get('data', None):
+        #     for row in json_response['data']:
+        #         yield row
+        # while True:
+        #     try:
+        #         json_response = self._get(json_response['pagination']['next_page_url'])
+        #         if json_response.get('data', None):
+        #             for row in json_response['data']:
+        #                 yield row
+        #     except KeyError:
+        #         break
 
     def get_table_list(self) -> Iterator:
         """
@@ -232,7 +244,8 @@ class SearchClient:
 
         """
         return self._get_paginated(
-            os.path.join(self.base_url, 'tables').replace('\\', '/')
+            urljoin(self.base_url, 'tables'),
+            'tables'
         )
 
     def get_table_info(self, table_name: str) -> pd.DataFrame:
@@ -245,7 +258,7 @@ class SearchClient:
 
         """
         return pd.DataFrame(
-            self._get(os.path.join(self.base_url, 'table', table_name, 'info').replace('\\', '/'))
+            self._get(urljoin(self.base_url, f'table/{table_name}/info'))
         )
 
     def get_table_data(self, table_name: str) -> Iterator:
@@ -258,7 +271,8 @@ class SearchClient:
 
         """
         return self._get_paginated(
-            os.path.join(self.base_url, 'table', table_name, 'data').replace('\\', '/')
+            urljoin(self.base_url, f'table/{table_name}/data'),
+            'data'
         )
 
     def search_table(self, query: str) -> Iterator:
@@ -273,5 +287,5 @@ class SearchClient:
 
         """
         return self._post_paginated(
-            os.path.join(self.base_url, 'search').replace('\\', '/'), query
+            urljoin(self.base_url, 'search'), query
         )
